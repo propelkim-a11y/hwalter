@@ -1,0 +1,247 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =============================================================
+   활터 있소 - 대나무 숲 자연주의 디자인 시스템
+   Design Movement: 한국 전통 자연미 + 현대적 클린 UI
+   Color Philosophy: 대나무·흙·진홍 - 활터 야외 분위기
+   Typography: Noto Serif KR (헤더) + Noto Sans KR (본문)
+   ============================================================= */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+:root {
+  /* 대나무 숲 자연주의 팔레트 */
+  --radius: 0.5rem;
+
+  /* 배경: 따뜻한 크림 - 한지의 온기 */
+  --background: oklch(0.985 0.006 95);
+  --foreground: oklch(0.14 0.02 50);
+
+  /* 카드: 순백에 가까운 크림 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.02 50);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0.02 50);
+
+  /* 주조색: 대나무 녹색 */
+  --primary: oklch(0.32 0.09 145);
+  --primary-foreground: oklch(0.98 0.005 95);
+
+  /* 보조색: 황토 */
+  --secondary: oklch(0.93 0.02 85);
+  --secondary-foreground: oklch(0.35 0.06 70);
+
+  --muted: oklch(0.95 0.01 90);
+  --muted-foreground: oklch(0.52 0.03 70);
+
+  /* 강조색: 진홍 - 과녁 중심 */
+  --accent: oklch(0.88 0.03 30);
+  --accent-foreground: oklch(0.35 0.12 25);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.88 0.015 85);
+  --input: oklch(0.88 0.015 85);
+  --ring: oklch(0.32 0.09 145);
+
+  /* 차트 색상 - 중수별 */
+  --chart-1: oklch(0.88 0.03 30);
+  --chart-2: oklch(0.75 0.08 145);
+  --chart-3: oklch(0.60 0.10 145);
+  --chart-4: oklch(0.45 0.10 145);
+  --chart-5: oklch(0.32 0.09 145);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  h1, h2, h3 {
+    font-family: 'Noto Serif KR', serif;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 480px;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* 활터 앱 전용 버튼 피드백 */
+  .ox-btn-active {
+    transform: scale(0.96);
+    transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* 카드 진입 애니메이션 */
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-enter {
+    animation: card-enter 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  /* 저장 성공 펄스 */
+  @keyframes save-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+
+  .save-pulse {
+    animation: save-pulse 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* 현황판 숫자 갱신 fade */
+  @keyframes stat-fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-fade-in {
+    animation: stat-fade-in 350ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  /* 현황판 skeleton shimmer */
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+  }
+
+  .stat-skeleton {
+    display: inline-block;
+    width: 2.5rem;
+    height: 1.75rem;
+    border-radius: 0.375rem;
+    background: linear-gradient(90deg, #E8E2D6 25%, #F0EBE0 50%, #E8E2D6 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+
+  /* 갱신 중 회전 아이콘 */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .stat-refreshing {
+    animation: spin-slow 1s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-fade-in, .stat-skeleton, .stat-refreshing {
+      animation: none;
+    }
+  }
+
+  /* 나무 성장 시스템 애니메이션 */
+  @keyframes aurora-shift {
+    0%   { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 1;   transform: scale(1.03); }
+  }
+
+  @keyframes aurora-pulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.95); }
+    50%       { opacity: 1;   transform: scale(1.05); }
+  }
+
+  @keyframes tree-float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  @keyframes flower-sway {
+    0%, 100% { transform: rotate(-8deg) scale(1); }
+    50%       { transform: rotate(8deg) scale(1.1); }
+  }
+
+  @keyframes bird-hop {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    30%       { transform: translateY(-8px) rotate(-5deg); }
+    60%       { transform: translateY(-4px) rotate(3deg); }
+  }
+
+  @keyframes levelup-pop {
+    0%   { transform: scale(0.7) translateY(20px); opacity: 0; }
+    60%  { transform: scale(1.08) translateY(-4px); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .levelup-modal-enter {
+    animation: levelup-pop 0.45s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .levelup-modal-enter {
+      animation: none;
+    }
+  }
+}
