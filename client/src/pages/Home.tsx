@@ -18,7 +18,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../lib/supabase";
 import { toast } from "sonner";
 import { nanoid } from "nanoid";
 
