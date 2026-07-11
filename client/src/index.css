@@ -201,4 +201,47 @@
       animation: none;
     }
   }
+
+  /* 나무 성장 시스템 애니메이션 */
+  @keyframes aurora-shift {
+    0%   { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 1;   transform: scale(1.03); }
+  }
+
+  @keyframes aurora-pulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.95); }
+    50%       { opacity: 1;   transform: scale(1.05); }
+  }
+
+  @keyframes tree-float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  @keyframes flower-sway {
+    0%, 100% { transform: rotate(-8deg) scale(1); }
+    50%       { transform: rotate(8deg) scale(1.1); }
+  }
+
+  @keyframes bird-hop {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    30%       { transform: translateY(-8px) rotate(-5deg); }
+    60%       { transform: translateY(-4px) rotate(3deg); }
+  }
+
+  @keyframes levelup-pop {
+    0%   { transform: scale(0.7) translateY(20px); opacity: 0; }
+    60%  { transform: scale(1.08) translateY(-4px); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .levelup-modal-enter {
+    animation: levelup-pop 0.45s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .levelup-modal-enter {
+      animation: none;
+    }
+  }
 }

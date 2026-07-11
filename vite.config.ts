@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { VitePWA } from "vite-plugin-pwa";
 
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
@@ -203,7 +204,64 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+const plugins = [
+  react(),
+  tailwindcss(),
+  jsxLocPlugin(),
+  vitePluginManusRuntime(),
+  vitePluginManusDebugCollector(),
+  vitePluginStorageProxy(),
+  VitePWA({
+    registerType: "autoUpdate",
+    injectRegister: "inline",
+    devOptions: {
+      enabled: true,
+      type: "module",
+    },
+    workbox: {
+      // 앱 셸 캐싱 — JS/CSS/HTML/이미지 전부 precache
+      globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+      // 오프라인 fallback — 모든 네비게이션 요청을 index.html로
+      navigateFallback: "index.html",
+      navigateFallbackDenylist: [/^\/api\//],
+      // 런타임 캐시 전략
+      runtimeCaching: [
+        {
+          // Supabase API — NetworkFirst (오프라인 시 캐시 fallback)
+          urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "supabase-cache",
+            networkTimeoutSeconds: 5,
+            expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 },
+            cacheableResponse: { statuses: [0, 200] },
+          },
+        },
+        {
+          // Google Fonts — CacheFirst
+          urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "google-fonts-cache",
+            expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            cacheableResponse: { statuses: [0, 200] },
+          },
+        },
+        {
+          // manus-storage 정적 에셋 — CacheFirst
+          urlPattern: /\/manus-storage\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "manus-storage-cache",
+            expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            cacheableResponse: { statuses: [0, 200] },
+          },
+        },
+      ],
+    },
+    manifest: false, // manifest.json은 client/public에 이미 존재
+  }),
+];
 
 export default defineConfig({
   plugins,

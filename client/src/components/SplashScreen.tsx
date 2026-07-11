@@ -58,7 +58,7 @@ export default function SplashScreen({ onDone }: SplashScreenProps) {
         }}
       >
         <img
-          src="/icon-192.png"
+          src={ICON_URL}
           alt="활터 왔소 아이콘"
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
         />
