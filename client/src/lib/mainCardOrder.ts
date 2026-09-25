@@ -5,7 +5,7 @@ export type MainCardId = (typeof MAIN_CARD_IDS)[number];
 export const DEFAULT_MAIN_CARD_ORDER: MainCardId[] = [...MAIN_CARD_IDS];
 export const MAIN_CARD_LABELS: Record<MainCardId, string> = {
   tree: "나의 나무",
-  location: "현재 활터",
+  location: "당근 활터",
   status: "왔소 현황",
   record: "습사 기록",
   stats: "시수 통계",

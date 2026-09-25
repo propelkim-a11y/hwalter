@@ -12,8 +12,8 @@ const globalStyles = readFileSync(
 );
 
 describe("활터 선택 UI 배치", () => {
-  it("현재 활터 섹션 마지막 영역에 현황 조회 활터 선택기를 둔다", () => {
-    const currentRangeStart = homeSource.indexOf('icon="location" title="현재 활터"');
+  it("당근 활터 섹션 마지막 영역에 현황 조회 활터 선택기를 둔다", () => {
+    const currentRangeStart = homeSource.indexOf('icon="location" title="당근 활터"');
     const statusStart = homeSource.indexOf('icon="status" title="왔소 현황"');
     const currentRangeSection = homeSource.slice(currentRangeStart, statusStart);
 
@@ -241,7 +241,7 @@ describe("활터 선택 UI 배치", () => {
 
   it("메인 카드 헤더의 아이콘·제목·요약을 공통 형식으로 정돈한다", () => {
     expect(homeSource).toContain("function CardHeaderContent");
-    expect(homeSource).toContain('icon="location" title="현재 활터"');
+    expect(homeSource).toContain('icon="location" title="당근 활터"');
     expect(homeSource).toContain('icon="status" title="왔소 현황"');
     expect(homeSource).toContain('icon="record"');
     expect(homeSource).toContain('icon="journal" title="습사 일지"');

@@ -78,7 +78,7 @@ const SESSION_KEY = "bow_session_id";
 const DEFAULT_ADMIN_PW = "0531";
 const LAST_CLUB_KEY = "last_selected_club"; // 마지막 선택 활터 저장 키
 const TREE_NAME_KEY = "tree_name"; // 나무 이름 저장 키
-const LOCATION_OPEN_KEY = "section_location_open"; // 현재 활터 섹션 접힘 상태
+const LOCATION_OPEN_KEY = "section_location_open"; // 당근 활터 섹션 접힘 상태
 const STATUS_OPEN_KEY = "section_status_open"; // 왔소 현황 섹션 접힘 상태
 const RECORD_OPEN_KEY = "section_record_open"; // 습사 기록 섹션 접힘 상태
 const STAT_OPEN_KEY = "section_stat_open"; // 시수 통계 섹션 접힘 상태
@@ -300,7 +300,7 @@ export default function Home() {
   const [totalCount, setTotalCount] = useState(0);
   // 현재원이 있는 활터 목록 (왔소 현황용)
   const [activeClubStatuses, setActiveClubStatuses] = useState<Array<{ id: number; name: string; count: number }>>([]);
-  // 현재 활터 패널용: 가까운 활터별 현재원 { [clubId]: count }
+  // 당근 활터 패널용: 가까운 활터별 현재원 { [clubId]: count }
   const [nearbyClubCounts, setNearbyClubCounts] = useState<Record<number, number>>({});
   const [statsLoading, setStatsLoading] = useState(true);   // 최초 로딩
   const [statsRefreshing, setStatsRefreshing] = useState(false); // 30초 갱신 중
@@ -626,7 +626,7 @@ export default function Home() {
             .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "ko"))
         );
 
-        // 현재 활터 패널에는 거리순 가까운 활터 5곳의 현재원만 표시
+        // 당근 활터 패널에는 거리순 가까운 활터 5곳의 현재원만 표시
         if (myLatRef.current !== null && myLngRef.current !== null) {
           const nearbyCounts: Record<number, number> = {};
           [...clubs]
@@ -1799,15 +1799,15 @@ export default function Home() {
         })()}
         </SortableMainCard>
 
-        {/* ── 현재 활터: 내 위치 + 가까운 활터 5개 (접이식) ────────────── */}
-        <SortableMainCard cardId="location" label="현재 활터" order={mainCardOrder.indexOf("location")} visible={mainCardVisibility.location} onMove={handleMainCardMove} onDragStateChange={setMainCardMoveActive}>
+        {/* ── 당근 활터: 내 위치 + 가까운 활터 5개 (접이식) ────────────── */}
+        <SortableMainCard cardId="location" label="당근 활터" order={mainCardOrder.indexOf("location")} visible={mainCardVisibility.location} onMove={handleMainCardMove} onDragStateChange={setMainCardMoveActive}>
         <div id="section-location" className="rounded-2xl overflow-hidden shadow-[0_4px_14px_rgba(61,90,62,0.08)]" style={{ background: "#fff", border: "1px solid #E6DED0" }}>
           <button
             className="flex h-14 w-full items-center justify-between px-4 transition-all active:scale-[0.99]"
             style={{ background: "transparent" }}
             onClick={() => setLocationOpen((v) => { const next = !v; localStorage.setItem(LOCATION_OPEN_KEY, String(next)); return next; })}
           >
-            <CardHeaderContent icon="location" title="현재 활터" summary={!locationOpen ? collapsedLocationSummary : undefined} />
+            <CardHeaderContent icon="location" title="당근 활터" summary={!locationOpen ? collapsedLocationSummary : undefined} />
             <CollapseChevron open={locationOpen} />
           </button>
           <div style={{ maxHeight: locationOpen ? 1300 : 0, overflow: locationOpen && clubDropdownOpen ? "visible" : "hidden", transition: "max-height 0.35s cubic-bezier(0.23,1,0.32,1)" }}>
@@ -1931,7 +1931,7 @@ export default function Home() {
                 </div>
               ) : null}
 
-              {/* 현황 조회 활터 선택 — 현재 활터 목록과 같은 카드 형식 */}
+              {/* 현황 조회 활터 선택 — 당근 활터 목록과 같은 카드 형식 */}
               <div className="relative mt-3" ref={clubSearchRef}>
                 <button
                   onClick={() => {
